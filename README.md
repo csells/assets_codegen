@@ -55,7 +55,13 @@ three
 Instance of 'Image'
 ```
 
+In addition, the generated Assets class contains a loadString and a loadBytes function for dynamic asset lookup.
+
 Enjoy.
 
 # TODO
-- Turn this into an [aggregate builder](https://github.com/dart-lang/build/blob/master/docs/writing_an_aggregate_builder.md).
+- put all of these into github as issues:
+- turn this into an [aggregate builder](https://github.com/dart-lang/build/blob/master/docs/writing_an_aggregate_builder.md)
+- make this into a CLI via [pub global activate](https://dart.dev/tools/pub/cmd/pub-global#activating-a-package)
+- handle nested asset folders
+- make the naming use camelCase instead of underscores (perhaps via the recase package?)
