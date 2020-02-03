@@ -1,4 +1,4 @@
-This program will generate base64-encoded data to provide a primitive way to embed resources into pure Dart code, which doesn't have asset support like Flutter.
+This program will generate base64-encoded data to provide a primitive way to embed resources into pure Dart code. This is to work around the fact that Dart doesn't have asset support like Flutter does.
 
 # Usage
 ```sh
@@ -25,24 +25,27 @@ will yield Dart code like the following:
 import 'dart:convert';
 
 class Assets {
-  static final png_transparent = base64.decode([
+  static final png_transparent_png = base64.decode([
     'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAA',
     'AABJRU5ErkJggg==',
   ].join());
-  static final the123 = utf8.decode(base64.decode([
+
+  static final the123_txt = utf8.decode(base64.decode([
     'b25lCnR3bwp0aHJlZQ==',
   ].join()));
+
+  ...
 }
 ```
 which you can use like so:
 
 ```dart
-import 'package:image/image.dart';
 import 'assets.dart';
+import 'package:image/image.dart';
 
 void main() {
-  print(Assets.the123);
-  print(Image.fromBytes(1, 1, Assets.png_transparent));
+  print(Assets.the123_txt);
+  print(Image.fromBytes(1, 1, Assets.png_transparent_png));
 }
 ```
 
@@ -55,13 +58,39 @@ three
 Instance of 'Image'
 ```
 
-In addition, the generated Assets class contains a loadString and a loadBytes function for dynamic asset lookup.
+In addition, the generated Assets class contains a loadString and a loadBytes function for dynamic asset lookup:
 
-Enjoy.
+```dart
+class Assets {
+  ...
 
-# TODO
-- put all of these into github as issues:
-- turn this into an [aggregate builder](https://github.com/dart-lang/build/blob/master/docs/writing_an_aggregate_builder.md)
-- make this into a CLI via [pub global activate](https://dart.dev/tools/pub/cmd/pub-global#activating-a-package)
-- handle nested asset folders
-- make the naming use camelCase instead of underscores (perhaps via the recase package?)
+  static String loadString(String name) {
+    switch (name) {
+      case '123.txt':
+        return the123_txt;
+      default:
+        throw Exception('unknown text asset: $name');
+    }
+  }
+
+  static List<int> loadBytes(String name) {
+    switch (name) {
+      case 'png-transparent.png':
+        return png_transparent_png;
+      default:
+        throw Exception('unknown binary asset: $name');
+    }
+  }
+}
+
+```
+which allows you to write code using strings provided at runtime like so:
+
+```dart
+void main() {
+  print(Assets.loadString('123.txt'));
+  print(Image.fromBytes(1, 1, Assets.loadBytes('png-transparent.png')));
+}
+```
+
+Enjoy!
