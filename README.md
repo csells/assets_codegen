@@ -25,12 +25,12 @@ will yield Dart code like the following:
 import 'dart:convert';
 
 class Assets {
-  static final png_transparent_png = base64.decode([
+  static final pngTransparentPng = base64.decode([
     'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAACklEQVR4nGMAAQAABQABDQottAAA',
     'AABJRU5ErkJggg==',
   ].join());
 
-  static final the123_txt = utf8.decode(base64.decode([
+  static final the123Txt = utf8.decode(base64.decode([
     'b25lCnR3bwp0aHJlZQ==',
   ].join()));
 
@@ -44,8 +44,8 @@ import 'assets.dart';
 import 'package:image/image.dart';
 
 void main() {
-  print(Assets.the123_txt);
-  print(Image.fromBytes(1, 1, Assets.png_transparent_png));
+  print(Assets.the123Txt);
+  print(Image.fromBytes(1, 1, Assets.pngTransparentPng));
 }
 ```
 

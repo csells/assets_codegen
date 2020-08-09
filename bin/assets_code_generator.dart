@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:math' as math;
 import 'package:path/path.dart' as path;
+import 'package:recase/recase.dart';
 
 class AssetsCodeGenerator {
   static final _binaryFileTypesRE = RegExp(r'\.(jpe?g|png|gif|ico|svg|ttf|eot|woff|woff2)$', caseSensitive: false);
@@ -64,7 +65,7 @@ class AssetsCodeGenerator {
   }
 
   static String _safeName(String name) =>
-      (_startsWithNumbersRE.hasMatch(name) ? 'the$name' : name).replaceAll(_unsafeCharsRE, '_');
+      (_startsWithNumbersRE.hasMatch(name) ? 'the$name' : name).replaceAll(_unsafeCharsRE, '_').camelCase;
   static bool _isText(File file) => !_binaryFileTypesRE.hasMatch(file.path);
 
   static Iterable<String> _base64encode(List<int> bytes) sync* {
