@@ -71,10 +71,10 @@ class AssetsCodeGenerator {
   static Iterable<String> _base64encode(List<int> bytes) sync* {
     var encoded = base64.encode(bytes);
 
-    // cut lines into 76-character chunks – makes for prettier source code
+    // cut lines into 70-character chunks – makes for prettier source code
     var index = 0;
     while (index < encoded.length) {
-      var line = encoded.substring(index, math.min(index + 76, encoded.length));
+      var line = encoded.substring(index, math.min(index + 70, encoded.length));
       yield line;
       index += line.length;
     }
